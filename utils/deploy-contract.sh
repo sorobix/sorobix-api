@@ -44,5 +44,5 @@ cargo build --target wasm32-unknown-unknown --release
 soroban deploy \
     --wasm target/wasm32-unknown-unknown/release/sorobix_temp.wasm \
     --secret-key $2 \
-    --rpc-url http://localhost:8001/soroban/rpc \
+    --rpc-url http://localhost:8000/soroban/rpc \
     --network-passphrase 'Test SDF Future Network ; October 2022'
