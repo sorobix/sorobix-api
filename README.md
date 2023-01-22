@@ -1,5 +1,11 @@
 # Sorobix
 
+<p align="center">
+  <a href="https://github.com/ShubhamPalriwala/sorobix">
+    <img src="./assets/logo.png" alt="Logo" width="380" height="190">
+  </a>
+</p>
+
 > Online IDE to compile, deploy, and invoke Soroban Smart Contracts on-the-fly on the Stellar network
 
 ## How it works
@@ -13,13 +19,13 @@ Sorobix provides the user an IDE on the cloud freely accessible to access and in
 
 We beleive this will take the Soroban Smart Contracts to new horizons as the community can now try out Soroban on-to-go with 0 local setup! With endless possibilites of integrating this in the existing ecosystem, for example, integrating these with our official Soroban documentation, and many more, we aim to take Sorobix and Soroban hand-in-hand to newer heights!
 
+![arch](assets/arch.jpeg)
 
 ## Tech Stack
 - Python
 - Shell
 - ReactJS
 - FastAPI
-- Azure
 - FutureNet
 - Soroban Tools
 
@@ -40,10 +46,6 @@ We beleive this will take the Soroban Smart Contracts to new horizons as the com
 4. Start the FastAPI instance:
    ```bash
     uvicorn main:app --reload
-   ```
-5. Start the ReactJs instance:
-   ```bash
-   CRA starter command here
    ```
 
 
