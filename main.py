@@ -1,7 +1,15 @@
 from typing import Union
 from fastapi import FastAPI
+from pydantic import BaseModel
 from stellar_sdk import Keypair
 import requests
+import subprocess
+
+
+class ContractToDeploy(BaseModel):
+    lib_file: str
+    secret_key: str
+
 
 app = FastAPI()
 
@@ -48,4 +56,17 @@ def read_root():
 @app.get("/create_account")
 def create_account_api():
     acc_created, secret, pub_key, message = create_account()
-    return {"bool": acc_created, "secret_seed": secret, "pub_key": pub_key, "message": message}
+    return {"success": acc_created, "secret_seed": secret, "pub_key": pub_key, "message": message}
+
+
+@app.post("/deploy_contract")
+def deploy_to_chain_api(contract: ContractToDeploy):
+    deploy_contract_proc = subprocess.run(["sh", "./utils/deploy-contract.sh", contract.lib_file, contract.secret_key],
+                                          stdout=subprocess.PIPE, universal_newlines=True)
+
+    contract_id = deploy_contract_proc.stdout
+
+    if contract_id != '':
+        return {"success": True, "contract_id": contract_id, "message": "Succesfully deployed contract!"}
+
+    return {"success": False, "contract_id": None, "message": "Something went wrong!"}
