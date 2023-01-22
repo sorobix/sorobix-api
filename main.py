@@ -6,7 +6,6 @@ import requests
 app = FastAPI()
 
 
-
 def create_account(secret: str = ""):
     raw_account = False
     if secret:
@@ -30,7 +29,9 @@ def create_account(secret: str = ""):
 
 
 def get_funds_from_friendbot(public_key: str):
-    response = requests.get(f"https://friendbot.stellar.org?addr={public_key}")
+    response = requests.get(
+        f"https://friendbot-futurenet.stellar.org?addr={public_key}")
+
     if response.status_code == 200:
         return True, "successfully added 10,000 xlms on the testnet!"
     else:
