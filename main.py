@@ -1,10 +1,21 @@
 from typing import Union
 from fastapi import FastAPI
+from pydantic import BaseModel
 from stellar_sdk import Keypair
 import requests
+import subprocess
+
+
+class ContractToDeploy(BaseModel):
+    lib_file: str
+    secret_key: str
+
+
+class Contract(BaseModel):
+    lib_file: str
+
 
 app = FastAPI()
-
 
 
 def create_account(secret: str = ""):
@@ -30,7 +41,9 @@ def create_account(secret: str = ""):
 
 
 def get_funds_from_friendbot(public_key: str):
-    response = requests.get(f"https://friendbot.stellar.org?addr={public_key}")
+    response = requests.get(
+        f"https://friendbot-futurenet.stellar.org?addr={public_key}")
+
     if response.status_code == 200:
         return True, "successfully added 10,000 xlms on the testnet!"
     else:
@@ -47,4 +60,39 @@ def read_root():
 @app.get("/create_account")
 def create_account_api():
     acc_created, secret, pub_key, message = create_account()
-    return {"bool": acc_created, "secret_seed": secret, "pub_key": pub_key, "message": message}
+    return {"success": acc_created, "secret_seed": secret, "pub_key": pub_key, "message": message}
+
+
+@app.post("/deploy_contract")
+def deploy_to_chain_api(contract: ContractToDeploy):
+
+    if len(contract.secret_key) == 0:
+        acc_created, secret, pub_key, message = create_account()
+        if not acc_created:
+            return {"success": False, "contract_id": None, "message": "Please create an account manually via /create_account and try again!"}
+
+        secret_key = secret
+    else:
+        secret_key = contract.secret_key
+
+    deploy_contract_proc = subprocess.run(["sh", "./utils/deploy-contract.sh", contract.lib_file, secret_key],
+                                          stdout=subprocess.PIPE, universal_newlines=True)
+
+    contract_id = deploy_contract_proc.stdout
+
+    if contract_id != '':
+        return {"success": True, "contract_id": contract_id, "message": "Succesfully deployed contract!", "secret_seed": secret, "pub_key": pub_key}
+
+    return {"success": False, "contract_id": None, "message": "Something went wrong!"}
+
+
+@app.post("/compile_contract")
+def compile_contract_api(contract: ContractToDeploy):
+    wasm_compilation_proc = subprocess.run(["sh", "./utils/compile-to-wasm.sh", contract.lib_file],
+                                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    if wasm_compilation_proc.returncode == 0:
+        return {"success": True, "message": "Compiled Successfully!"}
+
+    error_message = wasm_compilation_proc.stderr
+    return {"success": False, "message": error_message}
