@@ -8,6 +8,9 @@
 
 > Online IDE to compile, deploy, and invoke Soroban Smart Contracts on-the-fly on the Stellar network
 
+## Try it out:
+https://sorobix.vercel.app/
+
 ## How it works
 
 Sorobix provides the user an IDE on the cloud freely accessible to access and interact with the Smart Contracts on Soroban. We provide in-house support for
@@ -29,6 +32,8 @@ We beleive this will take the Soroban Smart Contracts to new horizons as the com
 - FutureNet
 - Soroban Tools
 
+## Frontend Repository
+[Sorobix-Frontend](https://github.com/RishabhKeshan/sorobix)
 
 ## Local Setup
 
