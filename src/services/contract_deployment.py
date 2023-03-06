@@ -24,6 +24,6 @@ def deploy_to_chain_api(contract: ContractToDeploy):
     contract_id = deploy_contract_proc.stdout
 
     if contract_id != '':
-        return {"success": True, "contract_id": contract_id, "message": "Succesfully deployed contract!", "secret_seed": secret, "pub_key": pub_key}
+        return {"success": True, "contract_id": contract_id, "message": "Succesfully deployed contract!"}
 
     return {"success": False, "contract_id": None, "message": "Something went wrong!"}
