@@ -27,8 +27,7 @@ We beleive this will take the Soroban Smart Contracts to new horizons as the com
 ## Tech Stack
 - Python
 - Shell
-- ReactJS
-- FastAPI
+- Flask
 - FutureNet
 - Soroban Tools
 
@@ -43,20 +42,14 @@ We beleive this will take the Soroban Smart Contracts to new horizons as the com
 
 1. Clone this repo using `git clone https://github.com/sorobix/sorobix-api`
 2. Make sure you have docker and rust toolchain installed
-3. Run the following command to start a node connected via the chain through RPC:
-    ```bash
-    docker run --rm -it \
-    -p 8001:8000 \
-    --name stellar \
-    stellar/quickstart:soroban-dev \
-    --futurenet \
-    --enable-soroban-rpc
-    ```
-4. Start the FastAPI instance:
+3. Build the docker image:
    ```bash
-    uvicorn main:app --reload
+    docker build . -t sorobix-api
    ```
-
+4. Run the docker image:
+   ```bash
+    docker run -p 3001:3001 sorobix-api:latest
+   ```
 
 ## License
 
