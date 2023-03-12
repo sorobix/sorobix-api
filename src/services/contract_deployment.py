@@ -1,6 +1,7 @@
 import subprocess
 from src.models.deployment import ContractToDeploy
 from src.services.account_creation import create_account
+from pathlib import Path
 
 
 def deploy_to_chain_api(contract: ContractToDeploy):
@@ -14,7 +15,10 @@ def deploy_to_chain_api(contract: ContractToDeploy):
     else:
         secret_key = contract.secret_key
 
-    deploy_contract_proc = subprocess.run(["sh", "./utils/deploy-contract.sh", contract.lib_file, secret_key],
+    curr_dir = Path(__file__).parent
+    src_path = str(Path(curr_dir).parents[0])
+
+    deploy_contract_proc = subprocess.run(["sh", src_path + "/utils/deploy-contract.sh", contract.lib_file, secret_key],
                                           stdout=subprocess.PIPE, universal_newlines=True)
 
     contract_id = deploy_contract_proc.stdout

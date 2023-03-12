@@ -16,7 +16,9 @@ def compile_contract_blueprint():
 
 
 @ contract_blueprint.route('/deploy', methods=['POST'])
-def deploy_to_chain_blueprint(contract: ContractToDeploy):
+def deploy_to_chain_blueprint():
+    contract = ContractToDeploy(
+        lib_file=request.json["lib_file"], secret_key=request.json["secret_key"])
     return deploy_to_chain_api(contract)
 
 
