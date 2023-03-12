@@ -6,7 +6,6 @@ from src.services.contract_invokation import invoke_contract_api
 
 from flask import Blueprint
 
-# define the blueprint
 contract_blueprint = Blueprint(name="contract_blueprint", import_name=__name__)
 
 
