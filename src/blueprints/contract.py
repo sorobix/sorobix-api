@@ -23,5 +23,12 @@ def deploy_to_chain_blueprint():
 
 
 @ contract_blueprint.route('/invoke', methods=['POST'])
-def invoke_contract_api(contract: ContractToInvoke):
+def invoke_contract():
+    contract = ContractToInvoke(
+        contract_id=request.json["contract_id"],
+        contract_function=request.json["contract_function"],
+        secret_key=request.json["secret_key"],
+        contract_arguments=request.json["contract_arguments"]
+    )
+
     return invoke_contract_api(contract)
