@@ -1,3 +1,5 @@
+> ## The API of sorobix has migrated to a newer rust version named [sorobix-api-rs](https://github.com/sorobix/sorobix-api-rs)
+
 # Sorobix
 
 <p align="center">
